@@ -32,7 +32,7 @@ public class Main {
         //La barbería solo recibe clientes dentro del minuto:
         new Thread(() -> {
             try {
-                Thread.sleep(60000);
+                Thread.sleep(30000);
                 abierto = false;
                 System.out.println("La barbería está cerrada, ya no recibe mas clientes.");
             } catch (InterruptedException e) {
@@ -81,7 +81,7 @@ public class Main {
         // Mostrar ganancias finales
         System.out.println("Ganancias finales totales: Barbero 1 = $" + gananciasBarbero1 + ", Barbero 2 = $" + gananciasBarbero2);
         System.out.println("El barbero 1 ha cortado el pelo a :"+ numClient1+ " y el barbero 2 : "+ numClient2);
-        System.out.println("La barbería ha cerrado no aceptamos a ningún cliente más.");
+        System.out.println("La barbería ha cerrado, los barberos cerraron ya.");
     }
 
     // Clase Barbero

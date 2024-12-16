@@ -1,0 +1,113 @@
+/home/alumnotv/.jdks/openjdk-23.0.1/bin/java -javaagent:/snap/intellij-idea-community/560/lib/idea_rt.jar=41775:/snap/intellij-idea-community/560/bin -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -classpath /home/alumnotv/Escritorio/Procesos/Procesos/ConcurrenciaBarberia/target/classes org.example.Main
+Cliente 1: Me senté en una silla de espera.
+Barbero 1: cortándose el pelo...
+Cliente 1: Estoy en la silla del barbero.
+Cliente 2: Me senté en una silla de espera.
+Cliente 2: Estoy en la silla del barbero.
+Barbero 2: cortándose el pelo...
+Cliente 1: Terminé y me voy.
+Cliente 2: Terminé y me voy.
+Cliente 3: Me senté en una silla de espera.
+Ganancias totales: Barbero 1 = $0, Barbero 2 = $0
+Barbero 1: Terminé de cortar el pelo.
+Barbero 1: cortándose el pelo...
+Cliente 3: Estoy en la silla del barbero.
+Cliente 3: Terminé y me voy.
+Cliente 4: Me senté en una silla de espera.
+Ganancias totales: Barbero 1 = $10, Barbero 2 = $0
+Barbero 1: Terminé de cortar el pelo.
+Barbero 1: cortándose el pelo...
+Cliente 4: Estoy en la silla del barbero.
+Barbero 2: Terminé de cortar el pelo.
+Cliente 5: Me senté en una silla de espera.
+Cliente 5: Estoy en la silla del barbero.
+Barbero 2: cortándose el pelo...
+Cliente 6: Me senté en una silla de espera.
+Cliente 4: Terminé y me voy.
+Ganancias totales: Barbero 1 = $20, Barbero 2 = $10
+Barbero 1: Terminé de cortar el pelo.
+Barbero 1: cortándose el pelo...
+Cliente 6: Estoy en la silla del barbero.
+Cliente 5: Terminé y me voy.
+Cliente 7: Me senté en una silla de espera.
+Cliente 6: Terminé y me voy.
+Ganancias totales: Barbero 1 = $30, Barbero 2 = $10
+Barbero 1: Terminé de cortar el pelo.
+Barbero 1: cortándose el pelo...
+Cliente 7: Estoy en la silla del barbero.
+Cliente 8: Me senté en una silla de espera.
+Barbero 2: Terminé de cortar el pelo.
+Barbero 2: cortándose el pelo...
+Cliente 8: Estoy en la silla del barbero.
+Cliente 9: Me senté en una silla de espera.
+Cliente 7: Terminé y me voy.
+Cliente 10: Me senté en una silla de espera.
+Ganancias totales: Barbero 1 = $40, Barbero 2 = $20
+Barbero 1: Terminé de cortar el pelo.
+Barbero 1: cortándose el pelo...
+Cliente 9: Estoy en la silla del barbero.
+Cliente 8: Terminé y me voy.
+Cliente 11: Me senté en una silla de espera.
+Cliente 9: Terminé y me voy.
+Cliente 12: Me senté en una silla de espera.
+Ganancias totales: Barbero 1 = $50, Barbero 2 = $20
+Barbero 1: Terminé de cortar el pelo.
+Barbero 1: cortándose el pelo...
+Cliente 10: Estoy en la silla del barbero.
+Cliente 13: Me senté en una silla de espera.
+Barbero 2: Terminé de cortar el pelo.
+Barbero 2: cortándose el pelo...
+Cliente 11: Estoy en la silla del barbero.
+Cliente 10: Terminé y me voy.
+Cliente 14: Me senté en una silla de espera.
+Ganancias totales: Barbero 1 = $60, Barbero 2 = $30
+Barbero 1: Terminé de cortar el pelo.
+Barbero 1: cortándose el pelo...
+Cliente 12: Estoy en la silla del barbero.
+Cliente 11: Terminé y me voy.
+Cliente 12: Terminé y me voy.
+Cliente 15: Me senté en una silla de espera.
+Ganancias totales: Barbero 1 = $70, Barbero 2 = $30
+Barbero 1: Terminé de cortar el pelo.
+Barbero 1: cortándose el pelo...
+Cliente 13: Estoy en la silla del barbero.
+Cliente 16: Me senté en una silla de espera.
+Cliente 17: No hay sillas libres, me voy.
+Barbero 2: Terminé de cortar el pelo.
+Barbero 2: cortándose el pelo...
+Cliente 14: Estoy en la silla del barbero.
+Cliente 13: Terminé y me voy.
+Ganancias totales: Barbero 1 = $80, Barbero 2 = $40
+Barbero 1: Terminé de cortar el pelo.
+Barbero 1: cortándose el pelo...
+Cliente 15: Estoy en la silla del barbero.
+Cliente 14: Terminé y me voy.
+Cliente 18: Me senté en una silla de espera.
+Cliente 15: Terminé y me voy.
+Cliente 19: Me senté en una silla de espera.
+Ganancias totales: Barbero 1 = $90, Barbero 2 = $40
+Barbero 1: Terminé de cortar el pelo.
+Barbero 1: cortándose el pelo...
+Cliente 16: Estoy en la silla del barbero.
+Cliente 20: Me senté en una silla de espera.
+Barbero 2: Terminé de cortar el pelo.
+Barbero 2: cortándose el pelo...
+Cliente 18: Estoy en la silla del barbero.
+Cliente 16: Terminé y me voy.
+Ganancias totales: Barbero 1 = $100, Barbero 2 = $50
+Barbero 1: Terminé de cortar el pelo.
+Barbero 1: cortándose el pelo...
+Cliente 19: Estoy en la silla del barbero.
+Cliente 18: Terminé y me voy.
+Cliente 19: Terminé y me voy.
+La barbería está cerrada, ya no recibe mas clientes.
+Ganancias totales: Barbero 1 = $110, Barbero 2 = $50
+Barbero 1: Terminé de cortar el pelo.
+Barbero 1: cortándose el pelo...
+Cliente 20: Estoy en la silla del barbero.
+Barbero 2: Terminé de cortar el pelo.
+Cliente 20: Terminé y me voy.
+Barbero 1: Terminé de cortar el pelo.
+Ganancias finales totales: Barbero 1 = $130, Barbero 2 = $60
+El barbero 1 ha cortado el pelo a :13 y el barbero 2 : 6
+La barbería ha cerrado no aceptamos a ningún cliente más.

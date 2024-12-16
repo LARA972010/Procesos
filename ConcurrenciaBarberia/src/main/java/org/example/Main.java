@@ -7,63 +7,104 @@ import java.util.logging.Logger;
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
 
-    // Semáforo para sillas de espera
-    private static final Semaphore sillas = new Semaphore(3); // 3 sillas disponibles
-    // Semáforo para la silla del barbero
-    private static final Semaphore sillaBarbero = new Semaphore(1); // 1 silla del barbero
-    // Semáforo para el barbero (dormir/despertar)
-    private static final Semaphore barbero = new Semaphore(0); // Barbero está inicialmente durmiendo
+    // Semáforos
+    private static final Semaphore sillas = new Semaphore(3); // 3 sillas de espera
+    private static final Semaphore sillasBarbero = new Semaphore(2); // 2 sillas de barbero
+    private static final Semaphore barberos = new Semaphore(0); // Barberos inicialmente durmiendo
+
+    // variables donde vasmoa ir guardabdo el dinero de cada barbero
+    private static int gananciasBarbero1 = 0;
+    private static int gananciasBarbero2 = 0;
+
+    // booleano para mostrar el estado de la barberia:
+    private static boolean abierto = true;
 
     public static void main(String[] args) {
+        //Nos cremos los dos hilos de cada barbero y los inicializamos:
+        Thread hiloBarbero1 = new Thread(new Barbero(1, 5000)); // Barbero que atiende a mas.
+        Thread hiloBarbero2 = new Thread(new Barbero(2, 10000)); // BArbero que atiende a menos
+        hiloBarbero1.start();
+        hiloBarbero2.start();
 
-
-        // Crear y ejecutar el hilo del barbero
-        Thread hiloBarbero = new Thread(new Barbero());
-        hiloBarbero.start();
-
-        // Crear y ejecutar hilos para los clientes
-        Thread[] hilosClientes = new Thread[8];
-        for (int i = 1; i <= 8; i++) {
+        //La barbería solo recibe clientes dentro del minuto:
+        new Thread(() -> {
             try {
-                // Espera aleatoria entre clientes
-                Thread.sleep((int) (Math.random() * 2000));
+                Thread.sleep(60000);
+                abierto = false;
+                System.out.println("La barbería está cerrada, ya no recibe mas clientes.");
             } catch (InterruptedException e) {
                 logger.log(Level.SEVERE, "Se produjo un error: ", e);
             }
-            hilosClientes[i - 1] = new Thread(new Cliente(i));
-            hilosClientes[i - 1].start();
-        }
+        }).start();
 
-        // Esperar a que todos los clientes terminen
-        for (Thread cliente : hilosClientes) {
-            try {
-                cliente.join(); // Espera a que cada cliente termine
-            } catch (InterruptedException e) {
-                logger.log(Level.SEVERE, "Se produjo un error: ", e);
+        // 20 clientes con tiempos diferentes
+        for (int i = 1; i <= 20; i++) {
+            if (abierto) {
+                new Thread(new Cliente(i)).start();
+                try {
+                    Thread.sleep((int) (Math.random() * 5000)); // Tiempo aleatorio entre clientes (0-5 segundos)
+                } catch (InterruptedException e) {
+                    logger.log(Level.SEVERE, "Se produjo un error: ", e);
+                }
+            } else {
+                System.out.println("Cliente " + i + ": La barbería ya está cerrada.");
             }
         }
-        System.out.println("Todos los clientes han sido atendidos o se han ido. Cerrando la peluquería.");
-        System.exit(0);
+
+        // me creo un hilo para mostrar las ganancias totales:
+        Thread gananciasHilo = new Thread(() -> {
+            while (abierto) {
+                try {
+                    Thread.sleep(10000); 
+                    System.out.println("Ganancias totales: Barbero 1 = $" + gananciasBarbero1 +
+                            ", Barbero 2 = $" + gananciasBarbero2);
+                } catch (InterruptedException e) {
+                    logger.log(Level.SEVERE, "Se produjo un error: ", e);
+                }
+            }
+        });
+        gananciasHilo.start();
+
+        // Esperar a que los barberos terminen después de cerrar
+        try {
+            hiloBarbero1.join();
+            hiloBarbero2.join();
+            gananciasHilo.join();
+        } catch (InterruptedException e) {
+            logger.log(Level.SEVERE, "Se produjo un error: ", e);
+        }
+
+        // Mostrar ganancias finales
+        System.out.println("Ganancias finales totales: Barbero 1 = $" + gananciasBarbero1 + ", Barbero 2 = $" + gananciasBarbero2);
+        System.out.println("La barbería ha cerrado por completo.");
     }
 
     // Clase Barbero
     static class Barbero implements Runnable {
+        private final int id;
+        private final int tiempoCorte;
+
+        public Barbero(int id, int tiempoCorte) {
+            this.id = id;
+            this.tiempoCorte = tiempoCorte;
+        }
+
         @Override
         public void run() {
-            while (true) {
+            while (abierto || barberos.availablePermits() > 0) {
                 try {
-                    // Esperar a que llegue un cliente (dormir)
-                    barbero.acquire();
-
-                    // Cortar el cabello del cliente
-                    System.out.println("Barbero: Comenzando a cortar el pelo...");
-                    Thread.sleep(3000); // Simular tiempo de corte
-                    System.out.println("Barbero: Terminé de cortar el pelo.");
+                    barberos.acquire(); //esperar a que llegue un cliente
+                    System.out.println("Barbero " + id + ": Comenzando a cortar el pelo...");
+                    Thread.sleep(tiempoCorte); //Barbero tiene tiempo específico para cortar
+                    System.out.println("Barbero " + id + ": Terminé de cortar el pelo.");
+                    synchronized (this) {
+                        if (id == 1) gananciasBarbero1 += 15; //Barbero 1 gana $10 por cliente
+                        else gananciasBarbero2 += 10; //Barbero 2 gana $15 por cliente
+                    }
                 } catch (InterruptedException e) {
                     logger.log(Level.SEVERE, "Se produjo un error: ", e);
                 } finally {
-                    // Liberar la silla del barbero
-                    sillaBarbero.release();
+                    sillasBarbero.release(); // Liberar la silla del barbero
                 }
             }
         }
@@ -80,23 +121,15 @@ public class Main {
         @Override
         public void run() {
             try {
-                // Intentar sentarse en una silla de espera
-                if (sillas.tryAcquire()) {
+                if (sillas.tryAcquire()) { //primero comprueba que hay silla de espera
                     System.out.println("Cliente " + id + ": Me senté en una silla de espera.");
-
-                    // Despertar al barbero si está durmiendo
-                    barbero.release();
-
-                    // Esperar a que la silla del barbero esté libre
-                    sillaBarbero.acquire();
-                    sillas.release(); // Dejar la silla de espera
-
+                    barberos.release(); // Despertar a un barbero
+                    sillasBarbero.acquire(); // Esperar una silla de barbero libre
+                    sillas.release(); // Liberar la silla de espera
                     System.out.println("Cliente " + id + ": Estoy en la silla del barbero.");
                     Thread.sleep(3000); // Simular tiempo en la silla del barbero
                     System.out.println("Cliente " + id + ": Terminé y me voy.");
-
                 } else {
-                    // No hay sillas disponibles, el cliente se va
                     System.out.println("Cliente " + id + ": No hay sillas libres, me voy.");
                 }
             } catch (InterruptedException e) {

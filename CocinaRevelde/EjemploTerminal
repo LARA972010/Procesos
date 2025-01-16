@@ -1,0 +1,19 @@
+/home/alumnotv/.jdks/openjdk-23.0.1/bin/java -javaagent:/snap/intellij-idea-community/562/lib/idea_rt.jar=37049:/snap/intellij-idea-community/562/bin -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -classpath /home/alumnotv/Escritorio/Procesos/Procesos/CocinaRevelde/out/production/CocinaRevelde SimulacionCocina
+Cocinero 3 preparando: Orden: Tostada, Tiempo: 3000 ms, Precio: 5.5 €
+Cocinero 1 preparando: Orden: Batido de Proteínas, Tiempo: 2000 ms, Precio: 10.0 €
+Cocinero 2 preparando: Orden: Ensalada de Frutas, Tiempo: 2000 ms, Precio: 8.5 €
+Cocinero 2 preparando: Orden: Huevos Revueltos, Tiempo: 3000 ms, Precio: 6.0 €
+Cocinero 1 preparando: Orden: Sándwich de Queso, Tiempo: 4000 ms, Precio: 7.0 €
+Cocinero 3 preparando: Orden: Té, Tiempo: 2000 ms, Precio: 4.5 €
+Platos preparados: 3
+Ganancias totales: 24.0 €
+Orden con más tiempo de preparación: Orden: Tostada, Tiempo: 3000 ms, Precio: 5.5 €
+Jefe cambia prioridad de cocinero 21 a baja.
+Jefe cambia prioridad de cocinero 22 a baja.
+Jefe cambia prioridad de cocinero 20 a baja.
+Cocinero 3 preparando: Orden: Yogur con Granola, Tiempo: 1000 ms, Precio: 9.0 €
+Cocinero 2 preparando: Orden: Tostada, Tiempo: 3000 ms, Precio: 6.5 €
+Cocinero 3 preparando: Orden: Huevos Revueltos, Tiempo: 3000 ms, Precio: 7.5 €
+Cocinero 1 preparando: Orden: Té, Tiempo: 2000 ms, Precio: 8.0 €
+Platos preparados: 10
+Ganancias totales: 72.5 €

@@ -1,0 +1,51 @@
+"C:\Program Files\Java\jdk-23\bin\java.exe" "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.2.4\lib\idea_rt.jar=58542:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.2.4\bin" -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -classpath C:\Users\Lara\IdeaProjects\ServidorPreguntonLara\target\classes org.example.Cliente
+Bienvenido al juego 'Adivina el número'. Estoy pensando en un número entre 1 y 100.
+¿Cuál es tu suposición?
+Tu suposición: 2
+El número es mayor. Intenta de nuevo.
+¿Cuál es tu suposición?
+Tu suposición: 3
+El número es mayor. Intenta de nuevo.
+¿Cuál es tu suposición?
+Tu suposición: 1
+El número es mayor. Intenta de nuevo.
+¿Cuál es tu suposición?
+Tu suposición: 0
+El número es mayor. Intenta de nuevo.
+¿Cuál es tu suposición?
+Tu suposición: 9
+El número es mayor. Intenta de nuevo.
+¿Cuál es tu suposición?
+Tu suposición: 80
+El número es menor. Intenta de nuevo.
+¿Cuál es tu suposición?
+Tu suposición: 70
+El número es menor. Intenta de nuevo.
+¿Cuál es tu suposición?
+Tu suposición: 60
+El número es menor. Intenta de nuevo.
+¿Cuál es tu suposición?
+Tu suposición: 50
+El número es menor. Intenta de nuevo.
+¿Cuál es tu suposición?
+Tu suposición: 40
+El número es menor. Intenta de nuevo.
+¿Cuál es tu suposición?
+Tu suposición: 30
+El número es menor. Intenta de nuevo.
+¿Cuál es tu suposición?
+Tu suposición: 20
+El número es menor. Intenta de nuevo.
+¿Cuál es tu suposición?
+Tu suposición: 10
+El número es mayor. Intenta de nuevo.
+¿Cuál es tu suposición?
+Tu suposición: 11
+El número es mayor. Intenta de nuevo.
+¿Cuál es tu suposición?
+Tu suposición: 12
+¡Felicidades! Adivinaste el número en 15 intentos.
+¿Quieres jugar otra vez? (si/no)
+no
+
+Process finished with exit code 0

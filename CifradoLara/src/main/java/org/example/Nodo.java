@@ -18,20 +18,20 @@ public class Nodo {
         this.usaCifradoAscii = usaCifradoAscii;
     }
 
-    // Cifrado ASCII + 3
+    // Cifrado ASCII como números desplazados
     public String cifrarAscii(String mensaje) {
         StringBuilder cifrado = new StringBuilder();
         for (char c : mensaje.toCharArray()) {
-            cifrado.append((char) (c + 3));
+            cifrado.append((int) c + 3).append(" ");
         }
-        return cifrado.toString();
+        return cifrado.toString().trim();
     }
 
-    // Descifrado ASCII - 3
+    // Descifrado ASCII desde números desplazados
     public String descifrarAscii(String mensaje) {
         StringBuilder descifrado = new StringBuilder();
-        for (char c : mensaje.toCharArray()) {
-            descifrado.append((char) (c - 3));
+        for (String num : mensaje.split(" ")) {
+            descifrado.append((char) (Integer.parseInt(num) - 3));
         }
         return descifrado.toString();
     }
@@ -44,7 +44,7 @@ public class Nodo {
                 char base = Character.isLowerCase(c) ? 'a' : 'A';
                 cifrado.append((char) ((c - base + desplazamiento) % 26 + base));
             } else {
-                cifrado.append(c); // No ciframos los caracteres no alfabéticos
+                cifrado.append(c);
             }
         }
         return cifrado.toString();
@@ -72,35 +72,14 @@ public class Nodo {
                 try (Socket socket = serverSocket.accept();
                      BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
                     String mensaje = in.readLine();
+                    
                     String mensajeDescifrado = usaCifradoAscii ? descifrarAscii(mensaje) : descifrarDesplazamiento(mensaje, 3);
                     System.out.println("Mensaje recibido y descifrado: " + mensajeDescifrado);
 
-                    // Preguntar al usuario si desea cifrar y reenviar el mensaje
-                    Scanner scanner = new Scanner(System.in);
-                    System.out.println("¿Deseas cifrar el mensaje y enviarlo al siguiente nodo? (s/n)");
-                    String respuesta = scanner.nextLine();
-
-                    if ("s".equalsIgnoreCase(respuesta)) {
-                        System.out.println("Introduce el método de cifrado (1 para ASCII +3, 2 para Desplazamiento): ");
-                        int metodo = scanner.nextInt();
-                        scanner.nextLine(); // Consumir línea sobrante
-
-                        String mensajeCifrado = "";
-                        if (metodo == 1) {
-                            mensajeCifrado = cifrarAscii(mensajeDescifrado);
-                        } else if (metodo == 2) {
-                            System.out.print("Introduce el desplazamiento: ");
-                            int desplazamiento = scanner.nextInt();
-                            scanner.nextLine(); // Consumir línea sobrante
-                            mensajeCifrado = cifrarDesplazamiento(mensajeDescifrado, desplazamiento);
-                        }
-
-                        enviar(mensajeCifrado);
-                        System.out.println("Mensaje cifrado y enviado al siguiente nodo.");
-                    } else {
-                        System.out.println("Flujo detenido.");
-                        break;
-                    }
+                    // Alternar cifrado para el reenvío
+                    String mensajeCifrado = usaCifradoAscii ? cifrarDesplazamiento(mensajeDescifrado, 3) : cifrarAscii(mensajeDescifrado);
+                    enviar(mensajeCifrado);
+                    System.out.println("Mensaje cifrado y enviado al siguiente nodo.");
                 }
             }
         } catch (IOException e) {
@@ -131,16 +110,13 @@ public class Nodo {
         scanner.nextLine(); // Consumir línea sobrante
 
         if (opcion == 1) {
-            // Iniciar flujo introduciendo un mensaje
             System.out.print("Introduce el mensaje inicial: ");
             String mensaje = scanner.nextLine();
 
-            // Cifrar el mensaje según el método elegido
             String mensajeCifrado = usaCifradoAscii ? nodo.cifrarAscii(mensaje) : nodo.cifrarDesplazamiento(mensaje, 3);
             nodo.enviar(mensajeCifrado);
             System.out.println("Mensaje cifrado y enviado al siguiente nodo.");
         } else {
-            // Escuchar mensajes entrantes
             nodo.escuchar();
         }
     }

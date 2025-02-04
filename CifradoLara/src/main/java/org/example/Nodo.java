@@ -18,7 +18,6 @@ public class Nodo {
         this.usaCifradoAscii = usaCifradoAscii;
     }
 
-    // Cifrado ASCII como números desplazados
     public String cifrarAscii(String mensaje) {
         StringBuilder cifrado = new StringBuilder();
         for (char c : mensaje.toCharArray()) {
@@ -27,7 +26,6 @@ public class Nodo {
         return cifrado.toString().trim();
     }
 
-    // Descifrado ASCII desde números desplazados
     public String descifrarAscii(String mensaje) {
         StringBuilder descifrado = new StringBuilder();
         for (String num : mensaje.split(" ")) {
@@ -36,7 +34,6 @@ public class Nodo {
         return descifrado.toString();
     }
 
-    // Cifrado por desplazamiento
     public String cifrarDesplazamiento(String mensaje, int desplazamiento) {
         StringBuilder cifrado = new StringBuilder();
         for (char c : mensaje.toCharArray()) {
@@ -50,12 +47,10 @@ public class Nodo {
         return cifrado.toString();
     }
 
-    // Descifrado por desplazamiento
     public String descifrarDesplazamiento(String mensaje, int desplazamiento) {
         return cifrarDesplazamiento(mensaje, 26 - desplazamiento);
     }
 
-    // Enviar mensaje a través de socket
     public void enviar(String mensaje) {
         try (Socket socket = new Socket(siguienteHost, siguientePuerto);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
@@ -65,21 +60,27 @@ public class Nodo {
         }
     }
 
-    // Escuchar mensajes entrantes
     public void escuchar() {
-        try (ServerSocket serverSocket = new ServerSocket(puertoEscucha)) {
+        try (ServerSocket serverSocket = new ServerSocket(puertoEscucha);
+             Scanner scanner = new Scanner(System.in)) {
             while (true) {
                 try (Socket socket = serverSocket.accept();
                      BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
                     String mensaje = in.readLine();
-                    
+
                     String mensajeDescifrado = usaCifradoAscii ? descifrarAscii(mensaje) : descifrarDesplazamiento(mensaje, 3);
                     System.out.println("Mensaje recibido y descifrado: " + mensajeDescifrado);
 
-                    // Alternar cifrado para el reenvío
-                    String mensajeCifrado = usaCifradoAscii ? cifrarDesplazamiento(mensajeDescifrado, 3) : cifrarAscii(mensajeDescifrado);
-                    enviar(mensajeCifrado);
-                    System.out.println("Mensaje cifrado y enviado al siguiente nodo.");
+                    System.out.print("¿Deseas reenviar el mensaje? (s/n): ");
+                    String respuesta = scanner.nextLine().trim().toLowerCase();
+
+                    if (respuesta.equals("s")) {
+                        String mensajeCifrado = usaCifradoAscii ? cifrarDesplazamiento(mensajeDescifrado, 3) : cifrarAscii(mensajeDescifrado);
+                        enviar(mensajeCifrado);
+                        System.out.println("Mensaje cifrado y enviado al siguiente nodo.");
+                    } else {
+                        System.out.println("El mensaje no fue reenviado.");
+                    }
                 }
             }
         } catch (IOException e) {
@@ -101,13 +102,13 @@ public class Nodo {
 
         System.out.println("¿Este nodo usa cifrado ASCII? (true/false):");
         boolean usaCifradoAscii = scanner.nextBoolean();
-        scanner.nextLine(); // Consumir línea sobrante
+        scanner.nextLine();
 
         Nodo nodo = new Nodo(puertoEscucha, siguienteHost, siguientePuerto, usaCifradoAscii);
 
         System.out.println("¿Quieres introducir un mensaje (1) o escuchar un mensaje (2)?");
         int opcion = scanner.nextInt();
-        scanner.nextLine(); // Consumir línea sobrante
+        scanner.nextLine();
 
         if (opcion == 1) {
             System.out.print("Introduce el mensaje inicial: ");
